@@ -44,18 +44,22 @@ app.listen(port, () => {
   );
 });
 
-// ----------find users by name -----------
+// ----------helper function -----------
 const findUserByName = (name) => {
   return users["users_list"].filter(
     (user) => user["name"] === name
   );
 };
 
-// ----------find user by id -----------
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
 
-// ------- routes ------
+const addUser = (user) => {
+  users["users_list"].push(user);
+  return user;
+};
+
+// ------- routes -----------------
 app.get("/users", (req, res) => {
   const name = req.query.name;
   if (name != undefined) {
@@ -75,4 +79,10 @@ app.get("/users/:id", (req, res) => {
   } else {
     res.send(result);
   }
+});
+
+app.post("/users", (req, res) => {
+  const userToAdd = req.body;
+  addUser(userToAdd);
+  res.send();
 });
