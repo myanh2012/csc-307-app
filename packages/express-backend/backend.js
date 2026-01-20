@@ -67,14 +67,23 @@ const deleteUser = (userIdx) => {
 
 // ------- routes -----------------
 app.get("/users", (req, res) => {
-  const name = req.query.name; //req.query.[keyword]
-  if (name != undefined) {
-    let result = findUserByName(name); //return an array of matched elem
-    result = { users_list: result }; //wrap make it consitent declared users
-    res.send(result);               
-  } else {
-    res.send(users);
-  }
+    const name = req.query.name; //req.query.[keyword]
+    const job = req.query.job;
+
+    let result = users.users_list;
+    if (name !== undefined){ // filter the name 
+        result = findUserByName(name); //return an array of matched elem
+    }
+    if (job !== undefined){ // use same result filter job 
+        result = result.filter((user)=> user.job === job); 
+    }
+
+    if (result.length !== 0){ // empty array [] is defined 
+        result = { users_list: result }; //wrap make it consitent declared users
+        res.send(result); 
+    } else{
+        res.status(404).send("User not found");
+    }
 });
 
 app.get("/users/:id", (req, res) => { //:id return unique 1 elem
