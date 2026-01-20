@@ -45,33 +45,39 @@ app.listen(port, () => {
 });
 
 // ----------helper function -----------
-const findUserByName = (name) => {
-  return users["users_list"].filter(
-    (user) => user["name"] === name
+const findUserByName = (name) => { 
+  return users["users_list"].filter( //filter the user_list 
+    (user) => user["name"] === name // inside filter find name that match 
+    // => means a function takes name run the following code
   );
 };
 
 const findUserById = (id) =>
   users["users_list"].find((user) => user["id"] === id);
+    // one liner doesn't need{} 
 
 const addUser = (user) => {
   users["users_list"].push(user);
   return user;
 };
 
+const deleteUser = (userIdx) => {
+    users["users_list"].splice(userIdx,1);
+}
+
 // ------- routes -----------------
 app.get("/users", (req, res) => {
-  const name = req.query.name;
+  const name = req.query.name; //req.query.[keyword]
   if (name != undefined) {
-    let result = findUserByName(name);
-    result = { users_list: result };
-    res.send(result);
+    let result = findUserByName(name); //return an array of matched elem
+    result = { users_list: result }; //wrap make it consitent declared users
+    res.send(result);               
   } else {
     res.send(users);
   }
 });
 
-app.get("/users/:id", (req, res) => {
+app.get("/users/:id", (req, res) => { //:id return unique 1 elem
   const id = req.params["id"]; //or req.params.id
   let result = findUserById(id);
   if (result === undefined) {
@@ -86,3 +92,15 @@ app.post("/users", (req, res) => {
   addUser(userToAdd);
   res.send();
 });
+
+app.delete("/users/:id", (req, res) => {
+    const id = req.params["id"];
+    const userIndex = users.users_list.findIndex(
+        (user) => user.id === id);
+    if (userIndex === -1){
+        res.send("user not found");
+    } else {
+        deleteUser(userIndex);
+        res.send("user deleted");
+    }
+})
