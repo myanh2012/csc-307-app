@@ -38,12 +38,25 @@ app.get("/", (req, res) => {  // root
   res.send("Hello World!");
 });
 
-app.get("/users", (req, res) => { // ../users (like a 2nd tab)
-  res.send(users); 
-});
-
 app.listen(port, () => {
   console.log(
     `Example app listening at http://localhost:${port}`
   );
+});
+
+const findUserByName = (name) => {
+  return users["users_list"].filter(
+    (user) => user["name"] === name
+  );
+};
+
+app.get("/users", (req, res) => {
+  const name = req.query.name;
+  if (name != undefined) {
+    let result = findUserByName(name);
+    result = { users_list: result };
+    res.send(result);
+  } else {
+    res.send(users);
+  }
 });
