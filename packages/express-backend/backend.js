@@ -38,12 +38,6 @@ app.get("/", (req, res) => {  // root
   res.send("Hello World!");
 });
 
-app.listen(port, () => {
-  console.log(
-    `Example app listening at http://localhost:${port}`
-  );
-});
-
 // ----------helper function -----------
 const findUserByName = (name) => { 
   return users["users_list"].filter( //filter the user_list 
@@ -113,3 +107,11 @@ app.delete("/users/:id", (req, res) => {
         res.send("user deleted");
     }
 })
+
+
+// --------- listen --------------
+app.listen(port, () => {
+  console.log(
+    `Example app listening at http://localhost:${port}`
+  );
+});
