@@ -45,6 +45,15 @@ function postUser(person) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(person),
+  })
+  .then((res) => {
+    if (res.status === 201){
+      return res.json();
+    }
+    else {
+      return undefined; // front end can read, react, parse but not send error
+    }
+
   });
 
   return promise;
