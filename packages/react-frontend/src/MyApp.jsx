@@ -39,13 +39,15 @@ useEffect(() => {
 }, []);
 // -------------- request calls to add a new user to backend 
 function postUser(person) {
-  const promise = fetch("Http://localhost:8000/users", {
+  // fetch send promise to backend
+  const promise = fetch("http://localhost:8000/users", { // return a promise 
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(person),
   })
+  // then reply to the message
   .then((res) => {
     if (res.status === 201){
       return res.json();

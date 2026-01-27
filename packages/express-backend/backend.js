@@ -54,6 +54,8 @@ const findUserById = (id) =>
     // one liner doesn't need{} 
 
 const addUser = (user) => {
+  const new_id = Math.random().toString();
+  user["id"] = new_id;
   users["users_list"].push(user);
   return user;
 };
@@ -95,8 +97,9 @@ app.get("/users/:id", (req, res) => { //:id return unique 1 elem
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  addUser(userToAdd);
-  res.send();
+  const newUser = addUser(userToAdd); //best practice bc newUser is changed
+  console.log(req.body); // check inputs 
+  res.status(201).json(newUser);
 });
 
 app.delete("/users/:id", (req, res) => {
