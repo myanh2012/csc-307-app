@@ -103,14 +103,15 @@ app.post("/users", (req, res) => {
 });
 
 app.delete("/users/:id", (req, res) => {
-    const id = req.params["id"];
+    const id = req.params.id;
     const userIndex = users.users_list.findIndex(
         (user) => user.id === id);
     if (userIndex === -1){
-        res.send("user not found");
+        console.log("delete id= ",id)
+        res.status(404).send("user not found");
     } else {
         deleteUser(userIndex);
-        res.send("user deleted");
+       return res.status(204).send();
     }
 })
 
