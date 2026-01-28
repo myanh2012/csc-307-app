@@ -22,7 +22,7 @@ function MyApp() {
     return promise;
   }
 
-  function updateList(person) {
+  function updateList(person) { // ****
   postUser(person)
     .then((newUser) => {
       if (newUser) {
