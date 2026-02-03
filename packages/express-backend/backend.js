@@ -1,6 +1,20 @@
 import express from "express";
 import cors from "cors";
 
+// mongosh 
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+
+dotenv.config();
+
+const { MONGO_CONNECTION_STRING } = process.env;
+
+mongoose.set("debug", true);
+mongoose
+  .connect(MONGO_CONNECTION_STRING + "users") // connect to Db "users"
+  .catch((error) => console.log(error));
+
+// app ie3
 const app = express();
 const port = 8000;
 const users = {
