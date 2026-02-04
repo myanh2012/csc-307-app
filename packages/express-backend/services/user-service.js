@@ -1,14 +1,7 @@
 import mongoose from "mongoose";
 import userModel from "../models/user.js";
 
-mongoose.set("debug", true);
-
-mongoose
-  .connect("mongodb://localhost:27017/users", {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .catch((error) => console.log(error));
+//removed mongoose connect: there is already connect in backend.js 
 
 function getUsers(name, job) {
   let promise;
@@ -18,8 +11,16 @@ function getUsers(name, job) {
     promise = findUserByName(name);
   } else if (job && !name) {
     promise = findUserByJob(job);
-  }
+  } else if (name && job) { // find both by name and job 
+    promise = findUserByName(name).then((users) =>
+        users.filter((user) => user.job === job)
+    );
+}
   return promise;
+}
+
+function deleteUserById(id) { //delete by id 
+  return userModel.findByIdAndDelete(id);
 }
 
 function findUserById(id) {
@@ -46,4 +47,5 @@ export default {
   findUserById,
   findUserByName,
   findUserByJob,
+  deleteUserById
 };
