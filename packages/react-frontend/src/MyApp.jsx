@@ -9,13 +9,13 @@ function MyApp() {
    
   ]);
 
-  function removeOneCharacter(id) {
-    const promise = fetch(`http://localhost:8000/users/${id}`,{
+  function removeOneCharacter(_id) {
+    const promise = fetch(`http://localhost:8000/users/${_id}`,{
       method : "DELETE"
     })
     .then((res) =>{
       if (res.status === 204){
-        setCharacters((prev) => prev.filter((u) => u.id !== id));
+        setCharacters((prev) => prev.filter((u) => u._id !== _id));
       }
     })
     .catch((error)=> console.log(error));
